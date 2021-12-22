@@ -1,0 +1,120 @@
+  [1m[35m (106.9ms)[0m  [1m[35mCREATE DATABASE "youtube_acushla_development" ENCODING = 'unicode'[0m
+  [1m[35m (32.1ms)[0m  [1m[35mCREATE DATABASE "youtube_acushla_test" ENCODING = 'unicode'[0m
+  [1m[35m (12.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4939650382491070890)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateCategories (20211221192813)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "categories" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20211221192813"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateBooks (20211221193014)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE TABLE "books" ("id" bigserial primary key, "title" character varying, "author" character varying, "category_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_1e86d9c4ec"
+FOREIGN KEY ("category_id")
+  REFERENCES "categories" ("id")
+)[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE INDEX "index_books_on_category_id" ON "books" ("category_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20211221193014"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-12-21 20:32:41.478273"], ["updated_at", "2021-12-21 20:32:41.478273"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(4939650382491070890)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/books" for ::1 at 2021-12-22 21:23:06 +0300
+  [1m[35m (5.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/books"):
+  
+Started GET "/categories" for ::1 at 2021-12-22 21:23:23 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/categories"):
+  
+Started GET "/category/1" for ::1 at 2021-12-22 21:23:27 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/category/1"):
+  
+Started GET "/api/v1/categories" for ::1 at 2021-12-22 21:24:00 +0300
+Processing by Api::V1::CategoriesController#index as */*
+  [1m[36mCategory Load (3.4ms)[0m  [1m[34mSELECT "categories".* FROM "categories"[0m
+  ↳ app/representers/categories_representer.rb:7:in `map'
+Completed 200 OK in 11ms (Views: 0.1ms | ActiveRecord: 3.4ms | Allocations: 3989)
+
+
+Started GET "/api/v1/books" for ::1 at 2021-12-22 21:24:10 +0300
+Processing by Api::V1::BooksController#index as */*
+  [1m[36mBook Load (1.8ms)[0m  [1m[34mSELECT "books".* FROM "books"[0m
+  ↳ app/representers/books_representer.rb:7:in `map'
+Completed 200 OK in 8ms (Views: 0.2ms | ActiveRecord: 1.8ms | Allocations: 1372)
+
+
+Started POST "/api/v1/categories/" for ::1 at 2021-12-22 21:25:18 +0300
+Processing by Api::V1::CategoriesController#create as */*
+  Parameters: {"name"=>"Mystery", "category"=>{"name"=>"Mystery"}}
+[31mUnpermitted parameter: :category[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/categories_controller.rb:13:in `create'
+  [1m[36mCategory Create (4.2ms)[0m  [1m[32mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Mystery"], ["created_at", "2021-12-22 18:25:18.273933"], ["updated_at", "2021-12-22 18:25:18.273933"]]
+  ↳ app/controllers/api/v1/categories_controller.rb:13:in `create'
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/categories_controller.rb:13:in `create'
+Completed 201 Created in 45ms (Views: 0.4ms | ActiveRecord: 20.4ms | Allocations: 5398)
+
+
+Started GET "/api/v1/categories" for ::1 at 2021-12-22 21:25:27 +0300
+Processing by Api::V1::CategoriesController#index as */*
+  Parameters: {"name"=>"Mystery", "category"=>{"name"=>"Mystery"}}
+  [1m[36mCategory Load (0.5ms)[0m  [1m[34mSELECT "categories".* FROM "categories"[0m
+  ↳ app/representers/categories_representer.rb:7:in `map'
+Completed 200 OK in 3ms (Views: 0.2ms | ActiveRecord: 0.5ms | Allocations: 589)
+
+
+Started POST "/api/v1/categories" for ::1 at 2021-12-22 21:26:55 +0300
+Processing by Api::V1::CategoriesController#create as */*
+  Parameters: {"name"=>"History", "category"=>{"name"=>"History"}}
+[31mUnpermitted parameter: :category[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/categories_controller.rb:13:in `create'
+  [1m[36mCategory Create (0.7ms)[0m  [1m[32mINSERT INTO "categories" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "History"], ["created_at", "2021-12-22 18:26:55.523170"], ["updated_at", "2021-12-22 18:26:55.523170"]]
+  ↳ app/controllers/api/v1/categories_controller.rb:13:in `create'
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/categories_controller.rb:13:in `create'
+Completed 201 Created in 13ms (Views: 0.4ms | ActiveRecord: 1.8ms | Allocations: 1911)
+
+
+Started GET "/api/v1/books" for ::1 at 2021-12-22 21:27:43 +0300
+Processing by Api::V1::BooksController#index as */*
+  [1m[36mBook Load (0.4ms)[0m  [1m[34mSELECT "books".* FROM "books"[0m
+  ↳ app/representers/books_representer.rb:7:in `map'
+Completed 200 OK in 3ms (Views: 0.2ms | ActiveRecord: 0.4ms | Allocations: 530)
+
+
+Started POST "/api/v1/books" for ::1 at 2021-12-22 21:28:59 +0300
+Processing by Api::V1::BooksController#create as */*
+  Parameters: {"title"=>"Lalegül", "author"=>"Ahmet Kaptan", "category_id"=>1, "book"=>{"title"=>"Lalegül", "author"=>"Ahmet Kaptan", "category_id"=>1}}
+[31mUnpermitted parameter: :book[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/v1/books_controller.rb:15:in `create'
+  [1m[36mCategory Load (0.3ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/v1/books_controller.rb:15:in `create'
+  [1m[36mBook Create (2.9ms)[0m  [1m[32mINSERT INTO "books" ("title", "author", "category_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["title", "Lalegül"], ["author", "Ahmet Kaptan"], ["category_id", 1], ["created_at", "2021-12-22 18:28:59.885869"], ["updated_at", "2021-12-22 18:28:59.885869"]]
+  ↳ app/controllers/api/v1/books_controller.rb:15:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/v1/books_controller.rb:15:in `create'
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/representers/book_representer.rb:10:in `as_json'
+Completed 201 Created in 45ms (Views: 0.3ms | ActiveRecord: 16.1ms | Allocations: 8732)
+
+
+Started GET "/api/v1/books" for ::1 at 2021-12-22 22:30:00 +0300
+Processing by Api::V1::BooksController#index as */*
+  [1m[36mBook Load (1.9ms)[0m  [1m[34mSELECT "books".* FROM "books"[0m
+  ↳ app/representers/books_representer.rb:7:in `map'
+  [1m[36mCategory Load (0.6ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/representers/books_representer.rb:11:in `block in as_json'
+Completed 200 OK in 51ms (Views: 1.1ms | ActiveRecord: 19.0ms | Allocations: 4131)
+
+
