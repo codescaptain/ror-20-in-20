@@ -1,17 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import Search from './Search'
-import BrandsData from '../brands.json'
 import Brand from './Brand'
+import MainContext from '../context/MainContext';
 
 const Content = () => {
-
-  const brandsArray = []
-  Object.keys(BrandsData).map(key => {
-    brandsArray.push(BrandsData[key])
-  })
-
-  const [brands, setBrands] = useState(brandsArray)
-  const [selectedBrands, setSelectedBrands] = useState([])
+ const {brands} = useContext(MainContext);
 
   return (
     <main className="content">
