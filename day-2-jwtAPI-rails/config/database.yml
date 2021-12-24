@@ -1,0 +1,21 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: day_2_rails_jwt_development
+
+ 
+test:
+  <<: *default
+  database: day_2_rails_jwt_test
+
+production:
+  <<: *default
+  database: day_2_rails_jwt_production
+  username: day_2_rails_jwt
+  password: <%= ENV['DBURI'] %>
