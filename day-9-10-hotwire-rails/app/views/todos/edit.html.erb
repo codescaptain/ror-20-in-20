@@ -1,0 +1,8 @@
+<h1>Editing Todo</h1>
+
+<%= turbo_frame_tag dom_id(@todo) do %>
+  <%= render 'form', todo: @todo %>
+  <%= link_to "Cancel", @todo %>
+<% end %>
+<%= link_to 'Show', @todo %> |
+<%= link_to 'Back', todos_path %>
